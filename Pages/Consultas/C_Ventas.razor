@@ -1,0 +1,122 @@
+@page "/C_Ventas"
+
+@using BLL
+@using Models
+@inject IToastService Toast
+@inject NavigationManager Nav
+@inject IJSRuntime Confirmacion
+
+<div class="card">
+    <div class="card-header">
+        <div class="form-row mb-3 mt-3">
+            <div class="col-sm-4">
+                <h3>Consulta Ventas</h3>
+            </div>
+
+            @*——————————————————————————————————————————————[ SELECT ]——————————————————————————————————————————————*@
+            <div class="col-sm-3">
+                <select @bind="Index" class="custom-select">
+                    <option value="-1" disabled>Filtrar por...</option>
+                    <option value="0">Todos</option>
+                    <option value="1">ClienteId</option>
+                </select>
+            </div>
+
+            @*——————————————————————————————————————————————[ CRITERIO ]——————————————————————————————————————————————*@
+            <div class="col-sm-3">
+                <input class="form-control w-100" type="@(Index == 1 ? "number" : "text")" @bind="Criterio" placeholder="Ingrese el criterio a filtrar" />
+            </div>
+
+            @*——————————————————————————————————————————————[ BOTON FILTRAR ]——————————————————————————————————————————————*@
+            <div class="col-sm-2">
+                <button class="btn btn-primary" @onclick="FiltrarProductos"><i class="oi oi-magnifying-glass" /> Filtrar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-body">
+        @*——————————————————————————————————————————————[ VALIDADOR ]——————————————————————————————————————————————*@
+        @if (Ventas == null || Filtro == null)
+        {
+            <div>
+                <h4>Cargando...</h4>
+            </div>
+        }
+        else
+        {
+            @*——————————————————————————————————————————————[ TITULOS DE LA TABLA ]——————————————————————————————————————————————*@
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>VentaId</th>
+                        <th>Fecha</th>
+                        <th>ClienteId</th>
+                        <th>Monto</th>
+                        <th>Balance</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                @*——————————————————————————————————————————————[ DATOS DE LA TABLA ]——————————————————————————————————————————————*@
+                <tbody>
+                    @foreach (var ventas in Filtro)
+                    {
+                        <tr>
+                            <td>@ventas.VentaId</td>
+                            <td>@ventas.Fecha</td>
+                            <td>@ventas.ClienteId</td>
+                            <td>@string.Format("{0:c}", ventas.Monto)</td>
+                            <td>@string.Format("{0:c}", ventas.Balance)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@*——————————————————————————————————————————————[ CODIGO ]——————————————————————————————————————————————*@
+@code {
+    int Index = -1;
+    string Criterio;
+
+    public List<Ventas> Ventas { get; set; }
+    public List<Ventas> Filtro { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Actualizar();
+    }
+
+    @*——————————————————————————————————————————————[ Actualizar Producto ]——————————————————————————————————————————————*@
+    void Actualizar()
+    {
+        Ventas = VentasBLL.GetList(p => true).ToList();
+        Filtro = Ventas;
+    }
+
+
+    @*——————————————————————————————————————————————[ FiltrarProductos ]——————————————————————————————————————————————*@
+    void FiltrarProductos()
+    {
+        //————————————————————————————————————[ Mostrar Todos ]————————————————————————————————————
+        if (Index == 0)
+        {
+            Filtro = VentasBLL.GetList(p => true).ToList();
+        }
+
+
+    
+      //————————————————————————————————————[ ClienteId ]———————————————————————————————————   
+        else if (Index == 1)
+        {
+            if (int.TryParse(Criterio, out int ClienteId))
+            {
+                Filtro = VentasBLL.GetList(p => p.ClienteId == ClienteId).ToList();
+            }
+        }
+    
+
+    }
+}
