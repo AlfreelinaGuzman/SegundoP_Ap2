@@ -10,13 +10,12 @@ namespace SegundoP_Ap2.BLL
 {
     public class CobrosBLL
     {
-        //++++++++++++++++++++++++++++++++++++ GUARDAR ++++++++++++++++++++++++++++++++++++
+        //——————————————————————————————————————————————[ GUARDAR ]——————————————————————————————————————————————
         public async static Task<bool> Guardar(Cobros cobro)
         {
             return await Insertar(cobro);
         }
-
-        //++++++++++++++++++++++++++++++++++++INSERTAR ++++++++++++++++++++++++++++++++++++
+        //——————————————————————————————————————————————[ INSERTAR ]——————————————————————————————————————————————
         public async static Task<bool> Insertar(Cobros cobro)
         {
             bool paso = false;
@@ -52,8 +51,7 @@ namespace SegundoP_Ap2.BLL
 
             return paso;
         }
-
-        //++++++++++++++++++++++++++++++++++++MODIFICAR ++++++++++++++++++++++++++++++++++++
+        //——————————————————————————————————————————————[ MODIFICAR ]——————————————————————————————————————————————
         public async static Task<bool> Modificar(Cobros cobro)
         {
             bool paso = false;
@@ -82,8 +80,7 @@ namespace SegundoP_Ap2.BLL
             }
             return paso;
         }
-        
-        //++++++++++++++++++++++++++++++++++++ELIMINAR ++++++++++++++++++++++++++++++++++++
+        //——————————————————————————————————————————————[ ELIMINAR ]——————————————————————————————————————————————
         public async static Task<bool> Eliminar(int id)
         {
             bool paso = false;
@@ -124,7 +121,7 @@ namespace SegundoP_Ap2.BLL
         }
 
         
-        //++++++++++++++++++++++++++++++++++++BUSCAR ++++++++++++++++++++++++++++++++++++
+        //——————————————————————————————————————————————[ BUSCAR ]——————————————————————————————————————————————
         public async static Task<Cobros> Buscar(int id)
         {
             Contexto contexto = new Contexto();
@@ -149,7 +146,7 @@ namespace SegundoP_Ap2.BLL
             return cobro;
         }
 
-        //++++++++++++++++++++++++++++++++++++EXISTE ++++++++++++++++++++++++++++++++++++
+        //——————————————————————————————————————————————[ EXISTE ]——————————————————————————————————————————————
         public async static Task<bool> Existe(int id)
         {
             Contexto contexto = new Contexto();
@@ -171,7 +168,7 @@ namespace SegundoP_Ap2.BLL
             return encontrado;
         }
 
-        //++++++++++++++++++++++++++++++++++++GET ++++++++++++++++++++++++++++++++++++
+        //——————————————————————————————————————————————[ GET ]——————————————————————————————————————————————
         public async static Task<List<Cobros>> GetCobros()
         {
             Contexto contexto = new Contexto();
