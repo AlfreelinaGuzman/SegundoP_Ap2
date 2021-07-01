@@ -3,7 +3,8 @@
 @using BLL
 @using Models
 @inject IToastService toast
-
+@inject NavigationManager Nav
+@inject IJSRuntime IJS
 
     <div class="card">
         <div class="card-header">
@@ -61,6 +62,8 @@
                                 <td>@cobros.ClienteId</td>
                                 <td>@cobros.Fecha.ToShortDateString()</td>
                                 <td>@string.Format("{0:c}" , cobros.ObtenerMonto())</td>
+                                <td><button @onclick="()=>VerCobro(cobros)" class="btn btn-primary" >Ver</button></td>
+
                             </tr>
                         }
                     </tbody>
@@ -76,13 +79,11 @@
         <Body>
             <FieldsCobro cobros="cobroSeleccionado" />
         </Body>
-        <Footer>
-            <button class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-        </Footer>
     </Dialogo>
 }
 
 @code {
+
 
     bool MostraDialogo = false;
     string DialogTitle;
@@ -101,6 +102,8 @@
         Cobros = await CobrosBLL.GetCobros();
         CobrosFiltrados = Cobros;
         Cliente = await ClientesBLL.GetClientes();
+
+       
     }
 
     void VerCobro(Cobros cobros) {
@@ -120,6 +123,9 @@
         await FiltarCobros();
     }
 
+    void Editar(int id){
+        Nav.NavigateTo($"R_Cobros/{id}");
+    }
 
     async Task Eliminar() {
         bool eliminado;

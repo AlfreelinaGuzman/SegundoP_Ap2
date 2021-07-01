@@ -22,6 +22,11 @@
                     <div class="col form-inline">
                         <label class="col-form-label mr-3">Id </label>
                         <InputNumber @bind-Value="cobros.CobroId" class="form-control" min="0" />
+
+                          @*——————————————————————————————————————————————[ BUSCAR ]——————————————————————————————————————————————*@
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary input-group-text" height="8" widht="2" @onclick="Buscar">Buscar</button>
+                            </div>
                     </div>
                    
 
@@ -41,6 +46,7 @@
                         {
                             Cliente_InputChanged();
                         }
+                        
 
                             <label class="col-form-label mr-3">    Fecha</label>
                             <InputDate @bind-Value="cobros.Fecha" class="form-control col-4" />
@@ -86,6 +92,7 @@
                                 <td></td>
                                 <td></td>
                                 <td><input type="text" readonly value="@cobros.ObtenerMonto()" /></td>
+                                
                             </tr>
                         </tfoot>
                     </table>
